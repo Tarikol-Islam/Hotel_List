@@ -1,0 +1,2 @@
+user registration and login korbe. login korar sathe sathe kichu hotel er list dekhbe with hotel name, description and price. nicey book button thakbe. 
+book button e click korle ekta msg dekhabe je your hotel is book.thank you.

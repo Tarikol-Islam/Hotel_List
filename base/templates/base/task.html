@@ -1,0 +1,14 @@
+{% extends 'base/main.html' %} 
+{% block content %}
+
+    <div class="header-bar">
+    <h1>Hotel Details</h1>
+    </div>
+
+    <div class="card-body">
+        <h5 class="card-title">{{task.title}}</h5>
+        <p class="card-text">{{task.description}}.</p>
+        <span style="color:darkolivegreen;font-weight:bold">{{task.price}}</span>
+        <a href="{% url 'book' object.pk %}" class="btn btn-info">Book ME</a>
+    </div>
+{% endblock %}
