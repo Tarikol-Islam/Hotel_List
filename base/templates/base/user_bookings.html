@@ -1,6 +1,14 @@
 {% extends 'base/main.html' %} 
 {% block content %}
+    <div class="header-bar">
+    <h1>My all booked hotel list</h1>
+    </div>
+
+    <div class="card-body">
     {% for booking in object_list %}
-    <h1>HEllo world</h1>
+        <div class="card-title">{{booking.booked_task}}</div>
+        
+        <br>
     {% endfor %}
+    </div>
 {% endblock %}

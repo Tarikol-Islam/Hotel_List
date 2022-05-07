@@ -1,3 +1,13 @@
 {% extends 'base/main.html' %}
 
-{% block content %}{% endblock content %}
+{% block content %}
+    <div class="header-bar">
+        <h1>My Bookings</h1>
+    </div>
+    
+    <div class="card-body">
+        {% for book in object_list %}
+        {{booked_task}}
+        {% endfor %}
+    </div>
+{% endblock content %}

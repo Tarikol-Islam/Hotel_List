@@ -17,7 +17,7 @@ from django.shortcuts import redirect
 from django.db import transaction
 
 from .models import Task, UserBookings
-from .forms import BookForm, PositionForm, SignUpForm
+from .forms import PositionForm, SignUpForm
 
 #Authentication part view
 class CustomLoginView(LoginView):
@@ -39,41 +39,52 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('task')
+            return redirect('/')
     else:
         form = SignUpForm()
     return render(request, 'base/signup.html', {'form': form})
 
-#USer Bookings part
+# END:Authentication part view
+
+
+#USER Bookings part
 
 class UserBookingsListView(LoginRequiredMixin,ListView):
     model = UserBookings
     template_name = "base/user_bookings.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_list"] =  UserBookings.objects.filter(created_by=self.request.user)
+        return context
+    
+
+
+
 from .models import UserBookings
+
 def UserBookingsCreate(request,id):
-    UserBookings.objects.create(booked_task=Task.objects.get(id),created_by=request.user).save()
+    UserBookings.objects.create(booked_task=Task.objects.get(id=id),created_by=request.user).save()
     return redirect('/')
 
 
 
-#Other part view
+#Task part view
 class TaskList(LoginRequiredMixin, ListView):
     model = Task
     context_object_name = 'tasks'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tasks'] = context['tasks'].filter(user=self.request.user)
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['tasks'] = context['tasks'].filter(user=self.request.user)
 
-        search_input = self.request.GET.get('search-area') or ''
-        if search_input:
-            context['tasks'] = context['tasks'].filter(
-                title__contains=search_input)
+    #     search_input = self.request.GET.get('search-area') or ''
+    #     if search_input:
+    #         context['tasks'] = context['tasks'].filter(title__contains=search_input)
 
-        context['search_input'] = search_input
+    #     context['search_input'] = search_input
 
-        return context
+    #     return context
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
